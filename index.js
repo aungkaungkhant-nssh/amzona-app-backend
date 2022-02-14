@@ -1,13 +1,16 @@
+require('express-async-errors');
+require('dotenv').config();
 const express = require('express');
 const app = express();
-const products = require('./routes/products');
+const logger = require('./startup/logger')
 
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use("/api/products",products);
+require('./startup/routes')(app)
+require('./startup/logging')()
 
 
-app.listen(5000,function(){
-    console.log("Server is running on port 5000");
+let port = process.env.PORT || 4000;
+
+app.listen(port,function(){
+   logger.log({level:"info",message:`Server is running on port ${port}`})
 })
 
