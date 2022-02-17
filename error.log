@@ -1,2 +1,3 @@
 
-{"level":"error","message":"Cannot access 'data' before initialization"}
+
+{"level":"error","message":"Product validation failed: category: Path `category` is required."}

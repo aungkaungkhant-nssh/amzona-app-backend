@@ -15,7 +15,7 @@ const data = {
     ],
     products:[
         {
-            _id:1,
+           
             name:"Nike Slim Shirt",
             categroy:"Shirt",
             brand:"Nike",
@@ -27,7 +27,7 @@ const data = {
             numberInstock:20
         },
         {
-            _id:2,
+          
             name:"Adidas Free Shirt",
             categroy:"Shirt",
             brand:"Adidas",
@@ -39,7 +39,7 @@ const data = {
             numberInstock:20
         },
         {
-            _id:3,
+         
             name:"Puma Fit Shirt",
             categroy:"Shirt",
             brand:"Puma",
@@ -51,7 +51,7 @@ const data = {
             numberInstock:13
         },
         {
-            _id:4,
+            
             name:"Nike Slim Pant",
             categroy:"Pant",
             brand:"Nike",
@@ -63,7 +63,7 @@ const data = {
             numberInstock:2
         },
         {
-            _id:5,
+           
             name:"Adidas Fit Pant",
             categroy:"Pant",
             brand:"Adidas",
@@ -75,7 +75,7 @@ const data = {
             numberInstock:0
         },
         {
-            _id:6,
+           
             name:"Puma Free Pant",
             categroy:"Pant",
             brand:"Puma",
