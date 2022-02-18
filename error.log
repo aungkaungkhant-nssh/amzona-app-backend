@@ -1,3 +1,6 @@
 
 
-{"level":"error","message":"Product validation failed: category: Path `category` is required."}
+
+
+
+{"level":"error","message":"Expected \"payload\" to be a plain object."}
