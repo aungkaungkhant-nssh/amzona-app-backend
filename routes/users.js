@@ -16,10 +16,10 @@ router.get('/seed',async(req,res)=>{
 router.post("/signup",async(req,res)=>{
    
     const {error} = validate(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).send({message:error.details[0].message});
 
     let user = await User.findOne({email:req.body.email});
-    if(user) return res.status(400).send("Email address is already exist");
+    if(user) return res.status(400).send({message:"Email address is already exist"});
 
     user = new User(_.pick(req.body,["name","email","password"]));
 
@@ -33,17 +33,21 @@ router.post("/signup",async(req,res)=>{
 
 router.post("/signin",async(req,res)=>{
     const {error} = signInValidate(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).send({message:error.details[0].message});
     
     let user = await User.findOne({email:req.body.email});
-    if(!user) return res.status(400).send("Email address doesn't exist");
+    if(!user) return res.status(400).send({message:"Email address doesn't exist"});
 
     let isValid= await bcrypt.compare(req.body.password,user.password);
-    if(!isValid) return res.status(400).send("Invalid Password");
+    if(!isValid) return res.status(400).send({message:"Invalid Password"});
 
     let token = user.generateToken();
 
-    res.header("x-auth-token",token).send(_.pick(user,["name","email"]))
+    res.header("x-auth-token",token).send({
+        name:user.name,
+        email:user.email,
+        token
+    })
 
 })
 
