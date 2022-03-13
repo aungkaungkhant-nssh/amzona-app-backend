@@ -3,9 +3,59 @@ const {User,validate} = require("../models/user");
 const router = express.Router();
 const data = require('../data');
 const bcrypt = require('bcrypt');
-
+const auth = require("../middleware/auth");
+const admin = require('../middleware/admin');
 const _= require('lodash');
 const Joi = require('joi');
+const validateObjectId = require('../middleware/validateObjectId');
+
+router.get('/topsellers',async(req,res)=>{
+    let users = await User.find({isSeller:true}).sort({"seller.rating":-1}).select({name:1,email:1,isSeller:1,seller:1});
+    res.send(users);
+})
+
+
+router.put('/:id',[validateObjectId,auth,admin],async(req,res)=>{
+    let user = await User.findById(req.params.id);
+    if(!user) return res.status(404).send({message:"User not found"});
+    user.name= req.body.name;
+    user.email = req.body.email;
+    user.isAdmin = req.body.isAdmin;
+    user.isSeller = req.body.isSeller;
+    user = await user.save();
+    res.send(user);
+})
+
+router.delete('/:id',[validateObjectId,auth,admin],async(req,res)=>{
+    let users = await User.findByIdAndDelete(req.params.id);
+    res.send(users);
+});
+
+router.get("/",[auth,admin],async(req,res)=>{
+    let users = await User.find();
+    res.send(users);
+})
+
+router.put('/profile',auth,async(req,res)=>{
+    let user = await User.findById(req.user._id);
+    if(!user) return res.status(404).send({message:"User not found"});
+    user.name = req.body.name;
+    user.email = req.body.email;
+    if(req.body.password){
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(req.body.password,salt);
+    }
+    user = await user.save();
+    let token = user.generateToken();
+    res.send({name:user.name,email:user.email,isAdmin:user.isAdmin,token,id:user._id});
+
+});
+
+router.get('/:id',auth,async(req,res)=>{
+    const user = await User.findById(req.params.id);
+    if(!user) return res.status(404).send({message:"User not found"});
+    res.send({_id:user._id,name:user.name,email:user.email,isAdmin:user.isAdmin,isSeller:user.isSeller,seller:user.seller});
+});
 
 router.get('/seed',async(req,res)=>{
     await User.remove({})
@@ -28,7 +78,7 @@ router.post("/signup",async(req,res)=>{
     await user.save();
 
     let token = user.generateToken();
-    res.header("x-auth-token",token).send(_.pick(req.body,["name","email"]))
+    res.header("x-auth-token",token).send({name:user.name,email:user.email, isAdmin:user.isAdmin,token,id:user._id, isSeller:user.isSeller})
 })
 
 router.post("/signin",async(req,res)=>{
@@ -46,10 +96,15 @@ router.post("/signin",async(req,res)=>{
     res.header("x-auth-token",token).send({
         name:user.name,
         email:user.email,
-        token
+        isAdmin:user.isAdmin,
+        token,
+        id:user._id,
+        isSeller:user.isSeller
     })
 
 })
+
+
 
 function signInValidate(user){
     const schema = Joi.object({

@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const config = require("config");
 module.exports=function(logger){
-    mongoose.connect("mongodb://localhost/amazona")
-         .then(()=> logger.log({level:"info",message:"Connected to mongodb://localhost/amazona"}))
+    mongoose.connect(config.get("db"))
+         .then(()=> logger.log({level:"info",message:`Connected to ${config.get("db")}`}))
          .catch(()=> logger.log({level:"info",message:err.message}))
 }

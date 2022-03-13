@@ -17,19 +17,20 @@ const data = {
         {
            
             name:"Nike Slim Shirt",
-            categroy:"Shirt",
+            category:"Shirt",
             brand:"Nike",
             price:12,
             description:"high quality product",
             rating:2.5,
             numReviews:10,
             image:'/images/p1.jpg',
-            numberInstock:20
+            numberInstock:20,
+         
         },
         {
           
             name:"Adidas Free Shirt",
-            categroy:"Shirt",
+           category:"Shirt",
             brand:"Adidas",
             price:20,
             description:"high quality product",
@@ -41,7 +42,7 @@ const data = {
         {
          
             name:"Puma Fit Shirt",
-            categroy:"Shirt",
+           category:"Shirt",
             brand:"Puma",
             price:30,
             description:"high quality product",
@@ -53,7 +54,7 @@ const data = {
         {
             
             name:"Nike Slim Pant",
-            categroy:"Pant",
+           category:"Pant",
             brand:"Nike",
             price:27,
             description:"high quality product",
@@ -65,7 +66,7 @@ const data = {
         {
            
             name:"Adidas Fit Pant",
-            categroy:"Pant",
+           category:"Pant",
             brand:"Adidas",
             price:28,
             description:"high quality product",
@@ -77,7 +78,7 @@ const data = {
         {
            
             name:"Puma Free Pant",
-            categroy:"Pant",
+            category:"Pant",
             brand:"Puma",
             price:37,
             description:"high quality product",

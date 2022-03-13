@@ -1,11 +1,13 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
 module.exports = function(req,res,next){
-    const authorization = req.header.authorization;
+    const authorization = req.headers.authorization;
     if(!authorization) return res.status(401).send({message:"Access denied no provided token..."})
-
-    const token = authorization.slice(authorization,7);
+    
+    const token = authorization.slice(7,authorization.length);
+ 
     try{
-        let decode = jwt.verify(token,process.env.JWT_KEY);
+        let decode = jwt.verify(token,process.env.JWT_KEY || "amazona_app_akk");
         req.user = decode;
         next()
     }catch(err){

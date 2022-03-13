@@ -18,12 +18,22 @@ const userSchema = new mongoose.Schema({
     },
     isAdmin:{
         type:Boolean,
-        defalult:false,
-    
-    }
+        default:false,
+    },
+    isSeller:{
+        type:Boolean,
+        default:false
+    },
+    seller: {
+        name: String,
+        logo: String,
+        description: String,
+        rating: { type: Number, default: 0, required: true },
+        numReviews: { type: Number, default: 0, required: true },
+      },
 })
 userSchema.methods.generateToken = function (){
-    return jwt.sign({_id:this._id,isAdmin:this.isAdmin},process.env.JWT_KEY)
+    return jwt.sign({_id:this._id,isAdmin:this.isAdmin,isSeller:this.isSeller},process.env.JWT_KEY)
 }
 const User = mongoose.model("User",userSchema);
 
